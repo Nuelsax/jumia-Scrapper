@@ -1,8 +1,6 @@
 package com.example.jumiaScrapper;
 
-import com.example.jumiaScrapper.config.PriceAlertBot;
 import com.example.jumiaScrapper.config.TwilioConfig;
-import com.twilio.Twilio;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -12,10 +10,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import com.example.jumiaScrapper.service.TelegrameService;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(basePackages = {"service", "com.example.jumiaScrapper.config"})
 public class JumiaScrapperApplication {
 	@Autowired
 	private TwilioConfig twilioConfig;
@@ -24,7 +22,7 @@ public class JumiaScrapperApplication {
 	public void initTwilio() {
 		try {
 			TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-			botsApi.registerBot(new PriceAlertBot());
+			botsApi.registerBot(new TelegrameService());
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
